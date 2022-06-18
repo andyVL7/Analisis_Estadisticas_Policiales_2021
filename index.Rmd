@@ -1,0 +1,127 @@
+---
+title: "Analisis_Estadisticas_Policial_2021"
+author: "Andy Valverde Ledezma"
+date: '2022-06-18'
+output:
+  html_document:
+    theme: readable    
+    toc: true
+    toc_depth: 5
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Presentación
+Este documento presenta gráficos y tablas, a partir de los datos de Estadisticas Policiales en el año 2021, compartidos por el [Organismo de Investigación Judicial (OIJ).](https://sitiooij.poder-judicial.go.cr/index.php/ayuda/servicios-policiales/servicios-a-organizaciones/indice-de-transparencia-del-sector-publico-costarricense/datos-abiertos)
+
+## Entradas
+### Carga de paquetes de R
+
+```{r carga de paquetes, message=FALSE}
+library(DT)
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(leaflet)
+library(sf)
+library(readxl)
+library(tidyverse)
+library(ggthemes)
+library(terra)
+library(raster)
+library(rgdal)
+```
+
+### Carga de Datos
+
+```{r, message=FALSE}
+Estadisticas_Policiales <- 
+  readxl::read_excel("C:/Users/ACER/Documents/estadisticaspoliciales2021.xls")
+```
+
+## Salidas
+#### Tabla
+
+```{r, message=FALSE}
+# Tabla interactiva del paquete DT
+
+Estadisticas_Policiales %>%
+  dplyr::select(Delito,
+                Fecha,
+                Victima,
+                Edad,
+                Genero,
+                Provincia,
+                Canton) %>%
+  mutate(Fecha = as.Date(Fecha, format = "%d/%m/%Y")) %>%
+  datatable(
+    options = list(
+      pageLength = 15,
+      language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json') # traducción al español
+    ),
+    colnames = c(
+      # encabezados de las columnas
+      "Delito",
+      "Fecha",
+      "Víctima",
+      "Edad",
+      "Género",
+      "Provincia",
+      "Cantón"
+    )
+  )
+```
+
+
+#### Gráfico de Cantidad de Delitos por tipo
+
+```{r}
+Cantidad_de_delito_por_tipo <-
+  Estadisticas_Policiales %>%
+  count(Delito) %>%
+  ggplot(aes(x = reorder(Delito, n), y = n)) +
+  geom_bar(stat = "identity") +
+  ggtitle("Cantidad de delitos por tipo de delito") +
+  xlab("Tipo de Delito") +
+  ylab("Cantidad") +
+  coord_flip() +
+  theme_hc()
+
+Cantidad_de_delito_por_tipo %>%
+  ggplotly() %>%
+  config(locale = "es")
+```
+
+#### Gráfico de Cantidad de Delitos por mes
+
+```{r}
+
+```
+
+#### Gráfico de proporción de Delitos por Género
+
+```{r}
+Proporcion_de_Delito_por_Genero <-
+  Estadisticas_Policiales %>%
+  ggplot(aes(x = Genero, fill = Delito)) +
+  geom_bar(position = "fill") +
+  ggtitle("Proporciones de Género por tipo de Delito") +
+  xlab("Género") +
+  ylab("Proporción") +
+  labs(fill = "Delito") +
+  theme_minimal()
+
+ggplotly(Proporcion_de_Delito_por_Genero) %>% config(locale = 'es')
+```
+
+#### Gráfico de Cantidad de Delitos para los cantones de San José, Alajuela, Cartago y Heredia 
+
+```{r}
+
+```
+
