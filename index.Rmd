@@ -35,6 +35,7 @@ library(ggthemes)
 library(terra)
 library(raster)
 library(rgdal)
+library(lubridate)
 ```
 
 ### Carga de Datos
@@ -43,6 +44,14 @@ library(rgdal)
 Estadisticas_Policiales <- 
   readxl::read_excel("C:/Users/ACER/Documents/estadisticaspoliciales2021.xls")
 ```
+
+## Procesamiento
+### Curación de datos
+
+```{r, message=FALSE}
+Estadisticas_Policiales$Fecha <- as.Date(Estadisticas_Policiales$Fecha, format = "%Y-%m-%d")
+```
+
 
 ## Salidas
 #### Tabla
