@@ -71,7 +71,7 @@ Estadisticas_Policiales %>%
   datatable(
     options = list(
       pageLength = 15,
-      language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json') # traducción al español
+      language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')
     ),
     colnames = c(
       # encabezados de las columnas
@@ -87,7 +87,7 @@ Estadisticas_Policiales %>%
 ```
 
 
-#### Gráfico de Cantidad de Delitos por tipo
+#### Gráfico de Cantidad de Delitos por tipo de Delito
 
 ```{r}
 Cantidad_de_delito_por_tipo <-
@@ -119,7 +119,7 @@ Proporcion_de_Delito_por_Genero <-
   Estadisticas_Policiales %>%
   ggplot(aes(x = Genero, fill = Delito)) +
   geom_bar(position = "fill") +
-  ggtitle("Proporciones de Género por tipo de Delito") +
+  ggtitle("Proporciones de Delito por tipo de Género") +
   xlab("Género") +
   ylab("Proporción") +
   labs(fill = "Delito") +
@@ -128,9 +128,19 @@ Proporcion_de_Delito_por_Genero <-
 ggplotly(Proporcion_de_Delito_por_Genero) %>% config(locale = 'es')
 ```
 
-#### Gráfico de Cantidad de Delitos para los cantones de San José, Alajuela, Cartago y Heredia 
+#### Gráfico de Cantidad de Delitos en San José, Alajuela, Cartago y Heredia 
 
 ```{r}
+Delitos_SanJose_Alajuela_Cartago_Heredia <-
+Estadisticas_Policiales %>%
+  ggplot(aes(x = Provincia)) +
+  geom_bar() +
+  ggtitle("Cantidad de Delitos en San José, Alajuela, Cartago y Heredia") +
+  xlab("Provincias") +
+  ylab("Cantidad") +
+  theme_minimal()
+
+ggplotly(Delitos_SanJose_Alajuela_Cartago_Heredia) %>% config(locale = 'es')
 
 ```
 
