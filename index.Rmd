@@ -95,7 +95,7 @@ Cantidad_de_delito_por_tipo <-
   count(Delito) %>%
   ggplot(aes(x = reorder(Delito, n), y = n)) +
   geom_bar(stat = "identity") +
-  ggtitle("Cantidad de delitos por tipo de delito") +
+  ggtitle("Cantidad de Delitos por tipo de Delito") +
   xlab("Tipo de Delito") +
   ylab("Cantidad") +
   coord_flip() +
@@ -109,19 +109,18 @@ Cantidad_de_delito_por_tipo %>%
 #### Gráfico de Cantidad de Delitos por mes
 
 ```{r}
+Estadisticas_Policiales$Mes <- month(Estadisticas_Policiales$Fecha, label = TRUE)
 
-Delitos_SanJose_Alajuela_Cartago_Heredia <-
-  grafico_4 %>%
-  count(Provincia) %>% 
-  ggplot(aes(x = reorder(Provincia, -n), y = n)) +
-  geom_bar(stat = "identity") +
-  ggtitle("Delitos en San José, Alajuela, Cartago y Heredia") +
-  xlab("Provincias") +
+Cantidad_Delitos_Mes <-
+  ggplot(data= Estadisticas_Policiales, aes(x = Mes)) +
+  geom_bar( ) +
+  ggtitle("Cantidad de Delitos en el 2021 (Mesuales)") +
+  xlab("Meses") +
   ylab("Cantidad de Delitos") +
-  theme_hc() 
+  theme_hc()
 
 # Gráfico plotly
-Delitos_SanJose_Alajuela_Cartago_Heredia %>%
+Cantidad_Delitos_Mes %>%
   ggplotly() %>% 
   config(locale = 'es') 
 ```
@@ -136,7 +135,7 @@ Proporcion_de_Delito_por_Genero <-
   ggtitle("Proporciones de Delito por tipo de Género") +
   xlab("Género") +
   ylab("Proporción") +
-  labs(fill = "Delito") +
+  labs(fill = "Delitos") +
   theme_minimal()
 
 ggplotly(Proporcion_de_Delito_por_Genero) %>% config(locale = 'es')
@@ -152,7 +151,7 @@ Delitos_SanJose_Alajuela_Cartago_Heredia <-
   count(Provincia) %>% 
   ggplot(aes(x = reorder(Provincia, -n), y = n)) +
   geom_bar(stat = "identity") +
-  ggtitle("Delitos en San José, Alajuela, Cartago y Heredia") +
+  ggtitle("Delitos en las Provincias de San José, Alajuela, Cartago y Heredia") +
   xlab("Provincias") +
   ylab("Cantidad de Delitos") +
   theme_hc() 
