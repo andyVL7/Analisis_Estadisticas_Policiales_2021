@@ -131,16 +131,21 @@ ggplotly(Proporcion_de_Delito_por_Genero) %>% config(locale = 'es')
 #### Gráfico de Cantidad de Delitos en San José, Alajuela, Cartago y Heredia 
 
 ```{r}
+grafico <- filter(Estadisticas_Policiales, grepl('HEREDIA|ALAJUELA|CARTAGO|SAN JOSE', Provincia))
+
 Delitos_SanJose_Alajuela_Cartago_Heredia <-
-Estadisticas_Policiales %>%
-  ggplot(aes(x = Provincia)) +
-  geom_bar() +
-  ggtitle("Cantidad de Delitos en San José, Alajuela, Cartago y Heredia") +
+  grafico %>%
+  count(Provincia) %>% 
+  ggplot(aes(x = reorder(Provincia, -n), y = n)) +
+  geom_bar(stat = "identity") +
+  ggtitle("Delitos en San José, Alajuela, Cartago y Heredia") +
   xlab("Provincias") +
-  ylab("Cantidad") +
-  theme_minimal()
+  ylab("Cantidad de Delitos") +
+  theme_hc() 
 
-ggplotly(Delitos_SanJose_Alajuela_Cartago_Heredia) %>% config(locale = 'es')
-
+# Gráfico plotly
+Delitos_SanJose_Alajuela_Cartago_Heredia %>%
+  ggplotly() %>% 
+  config(locale = 'es') 
 ```
 
